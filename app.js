@@ -1,23 +1,24 @@
+
 const express = require('express');
+const bodyParser = require("body-parser");
 const app = express();
+const mongoose = require('mongoose');
+const cors = require('cors');
 
-app.use(express.static('public'));
-//const records = require('./records');
+//app.use(express.static('public'));
 
-//Send a GET request to READ(view) a list of quotes
-// app.get('/quotes', async (req, res) => {
-//     const quotes = await records.getQuotes();
-//     res.json(quotes);  
-// })
+const records = require('./models/quotes');
 
-// //Send a GET request to READ(view) a single quote
-// app.get('/quotes/:id', async (req, res) => {
-//     const quote = await records.getQuote(req.params.id);
-//     res.json(quote);
-// })
-//Send a POST request to CREATE a quote
-//Send a PUT request to UPDATE(edit) a quote
-//Send a DELETE request to DELETE a quote
+
+app.get('/', (req, res, next) => {
+    return records.find({})
+    .lean()
+    .then((quotes) => {
+        console.log(quotes);
+        res.json(quotes);
+    })
+    .catch(err => next(err));
+});
 
 
 //app.listen(3000, () => console.log('Quote API listening on port 3000!'));
