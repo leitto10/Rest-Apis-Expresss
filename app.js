@@ -5,6 +5,11 @@ const app = express();
 const mongoose = require('mongoose');
 const cors = require('cors');
 
+app.use(cors());
+app.use(express.json());
+// set Access-Control-Allow-Origin header for api route
+//app.use('/api', require('cors')());
+
 //Connection string to the database
 mongoose.connect(process.env.MONGO_URI, {useNewUrlParser: true, useUnifiedTopology: true})
 .then(() => console.log('DB Connected!'))
