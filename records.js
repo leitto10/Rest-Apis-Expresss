@@ -1,5 +1,5 @@
 const fs = require('fs');
-const records1 = require('./records1');
+const records1 = require('./records');
 
 /**
  * Gets all quotes
