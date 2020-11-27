@@ -22,7 +22,7 @@ mongoose.connect(process.env.MONGO_URI, {useNewUrlParser: true, useUnifiedTopolo
 const records = require('./models/quotes');
 
 
-app.get('/', (req, res, next) => {
+app.get('/api', (req, res, next) => {
     return records.find({})
     .lean()
     .then((quotes) => {
@@ -31,6 +31,7 @@ app.get('/', (req, res, next) => {
     })
     .catch(err => next(err));
 });
+
 
 
 //app.listen(3000, () => console.log('Quote API listening on port 3000!'));
