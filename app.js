@@ -8,7 +8,7 @@ const cors = require('cors');
 app.use(cors());
 app.use(express.json());
 // set Access-Control-Allow-Origin header for api route
-//app.use('/api', require('cors')());
+app.use('/api', require('cors')());
 
 //Connection string to the database
 mongoose.connect(process.env.MONGO_URI, {useNewUrlParser: true, useUnifiedTopology: true})
@@ -16,8 +16,6 @@ mongoose.connect(process.env.MONGO_URI, {useNewUrlParser: true, useUnifiedTopolo
 .catch(err => {
     console.log(err);
 })
-
-//app.use(express.static('public'));
 
 const records = require('./models/quotes');
 
