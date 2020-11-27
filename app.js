@@ -19,7 +19,7 @@ mongoose.connect(process.env.MONGO_URI, {useNewUrlParser: true, useUnifiedTopolo
 
 const records = require('./models/quotes');
 
-
+// https://rest-apis-expresss.herokuapp.com/api/quotes
 app.get('/api/quotes', (req, res, next) => {
     return records.find({})
     .lean()
@@ -30,7 +30,25 @@ app.get('/api/quotes', (req, res, next) => {
     .catch(err => next(err));
 });
 
-
+app.get('/api/detail', (req, res) => {
+    //const quote = await records.getQuote(req.params.id);
+    const itemId = req.query.id;
+    return records.findOne({ _id: itemId })
+    .lean()
+    .then(quote => {
+        console.log(quote);
+        if(quote) {
+            //res.render('details', quote);
+            res.json(quote);
+        }else{
+            res.status(404).json({message: "Not a valid Quote id..."});
+        }
+    })
+    .catch(err => {
+        console.log(err);
+        res.status(500).json({error: err});
+    });
+});
 
 //app.listen(3000, () => console.log('Quote API listening on port 3000!'));
 app.listen(process.env.PORT || 3000, function(){
