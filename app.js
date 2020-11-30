@@ -51,7 +51,7 @@ app.get('/api/detail', (req, res) => {
     });
 });
 
-//Send a POST request to CREATE new Document.
+// Send a POST request to CREATE new Document.
 // https://rest-apis-expresss.herokuapp.com/api/quotes
 app.post('/api/quotes', (req, res) => {
     console.log('Body', req.body);
@@ -74,6 +74,22 @@ app.post('/api/quotes', (req, res) => {
     }else{
         res.status(404).json({message: "Quote and author required."});
     }
+});
+// Delete a Quote from the database
+// https://rest-apis-expresss.herokuapp.com/api/delete/:id
+app.get('/api/delete/:id', (res, res)=> {
+    const itemId = req.params.id;
+    records.deleteOne({_id: itemId})
+    .exec()
+    .then(result => {
+        res.json(result);
+    })
+    .catch(err => {
+        console.log(err);
+        res.status(500).json({
+            error:err
+        });
+    });
 });
 
 //app.listen(3000, () => console.log('Quote API listening on port 3000!'));
