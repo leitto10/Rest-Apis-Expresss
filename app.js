@@ -77,7 +77,7 @@ app.post('/api/quotes', (req, res) => {
 });
 // Delete a Quote from the database
 // https://rest-apis-expresss.herokuapp.com/api/delete/:id
-app.get('/api/delete/:id', (res, res)=> {
+app.get('/api/delete/:id', (req, res) => {
     const itemId = req.params.id;
     records.deleteOne({_id: itemId})
     .exec()
@@ -87,7 +87,7 @@ app.get('/api/delete/:id', (res, res)=> {
     .catch(err => {
         console.log(err);
         res.status(500).json({
-            error:err
+            error: err
         });
     });
 });
