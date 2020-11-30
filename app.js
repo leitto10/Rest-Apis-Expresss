@@ -15,7 +15,7 @@ mongoose.connect(process.env.MONGO_URI, {useNewUrlParser: true, useUnifiedTopolo
 .then(() => console.log('DB Connected!'))
 .catch(err => {
     console.log(err);
-})
+});
 
 const records = require('./models/quotes');
 
@@ -75,6 +75,7 @@ app.post('/api/quotes', (req, res) => {
         res.status(404).json({message: "Quote and author required."});
     }
 });
+
 // Delete a Quote from the database
 // https://rest-apis-expresss.herokuapp.com/api/delete/:id
 app.get('/api/delete/:id', (req, res) => {
@@ -82,6 +83,29 @@ app.get('/api/delete/:id', (req, res) => {
     records.deleteOne({_id: itemId})
     .exec()
     .then(result => {
+        res.json(result);
+    })
+    .catch(err => {
+        console.log(err);
+        res.status(500).json({
+            error: err
+        });
+    });
+});
+
+//Update a sigle record
+// https://rest-apis-expresss.herokuapp.com/api/quote/:id
+app.post('/api/quote/:id', (req, res) => {
+    const itemId = req.params.id;
+    if(!itemId){
+        return req.status(400).send("Missing URL parameter: quote id.");
+    }
+    records.findByIdAndUpdate(
+        {_id: itemId}, req.body, {new: true}
+    )
+    .exec()
+    .then(result => {
+        console.log(result);
         res.json(result);
     })
     .catch(err => {
