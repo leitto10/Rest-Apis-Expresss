@@ -30,6 +30,7 @@ app.get('/api/quotes', (req, res, next) => {
     .catch(err => next(err));
 });
 
+// https://rest-apis-expresss.herokuapp.com/api/detail?id=
 app.get('/api/detail', (req, res) => {
     //const quote = await records.getQuote(req.params.id);
     const itemId = req.query.id;
@@ -48,6 +49,31 @@ app.get('/api/detail', (req, res) => {
         console.log(err);
         res.status(500).json({error: err});
     });
+});
+
+//Send a POST request to CREATE new Document.
+// https://rest-apis-expresss.herokuapp.com/api/quotes
+app.post('/api/quotes', (req, res) => {
+    console.log('Body', req.body);
+    if(req.body.author && req.body.quote && req.body.date){
+        const quote = new records({
+            _id: new mongoose.Types.ObjectId(),
+            quote: req.body.quote,
+            author: req.body.author,
+            date: req.body.date
+        })
+        quote.save()
+        .then(result => {
+            console.log(result);
+            res.status(201).json({
+                message: "New Document Created...",
+                createdDoc: quote
+            });
+        })
+        .catch(err => console.log(err));
+    }else{
+        res.status(404).json({message: "Quote and author required."});
+    }
 });
 
 //app.listen(3000, () => console.log('Quote API listening on port 3000!'));
