@@ -116,7 +116,25 @@ app.post('/api/quote/:id', (req, res) => {
     });
 });
 
-//app.listen(3000, () => console.log('Quote API listening on port 3000!'));
+//Error handlers middleware for staff that wen wrong with the 
+//request or the server.
+app.use((req, res, next) => {
+    const err = new Error("Wrong end point or request.");
+    err.status = 404;
+    next(err);
+})
+
+app.use((err, req, res, next) => {
+    res.status(err.status || 500);
+    res.json({
+        error:{
+            message: err.message
+        }
+    });
+    next(err);
+});
+
+
 app.listen(process.env.PORT || 3000, function(){
     console.log("Express server listening on port %d in %s mode", this.address().port, app.settings.env);
   });
