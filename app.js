@@ -10,7 +10,7 @@ app.use(express.json());
 // set Access-Control-Allow-Origin header for api route
 app.use('/api', require('cors')());
 
-//Connection string to the database
+// Connection string to the database
 mongoose.connect(process.env.MONGO_URI, {useNewUrlParser: true, useUnifiedTopology: true})
 .then(() => console.log('DB Connected!'))
 .catch(err => {
@@ -19,7 +19,7 @@ mongoose.connect(process.env.MONGO_URI, {useNewUrlParser: true, useUnifiedTopolo
 
 const records = require('./models/quotes');
 
-// https://rest-apis-expresss.herokuapp.com/api/quotes
+// https://rest-apis-expresss.herokuapp.com/api/v1/quotes
 app.get('/api/v1/quotes', (req, res, next) => {
     return records.find({})
     .lean()
@@ -30,7 +30,7 @@ app.get('/api/v1/quotes', (req, res, next) => {
     .catch(err => next(err));
 });
 
-// https://rest-apis-expresss.herokuapp.com/api/detail?id=
+// https://rest-apis-expresss.herokuapp.com/api/v1/detail?id=
 app.get('/api/v1/detail', (req, res) => {
     //const quote = await records.getQuote(req.params.id);
     const itemId = req.query.id;
@@ -52,7 +52,7 @@ app.get('/api/v1/detail', (req, res) => {
 });
 
 // Send a POST request to CREATE new Document.
-// https://rest-apis-expresss.herokuapp.com/api/quotes
+// https://rest-apis-expresss.herokuapp.com/api/v1/quotes
 app.post('/api/v1/quotes', (req, res) => {
     console.log('Body', req.body);
     if(req.body.author && req.body.quote && req.body.date){
@@ -77,7 +77,7 @@ app.post('/api/v1/quotes', (req, res) => {
 });
 
 // Delete a Quote from the database
-// https://rest-apis-expresss.herokuapp.com/api/delete/:id
+// https://rest-apis-expresss.herokuapp.com/api/v1/delete/:id
 app.get('/api/v1/delete/:id', (req, res) => {
     const itemId = req.params.id;
     records.deleteOne({_id: itemId})
@@ -93,8 +93,8 @@ app.get('/api/v1/delete/:id', (req, res) => {
     });
 });
 
-//Update a sigle record
-// https://rest-apis-expresss.herokuapp.com/api/quote/:id
+// Update a sigle record
+// https://rest-apis-expresss.herokuapp.com/api/v1/quote/:id
 app.post('/api/v1/quote/:id', (req, res) => {
     const itemId = req.params.id;
     if(!itemId){
@@ -116,8 +116,8 @@ app.post('/api/v1/quote/:id', (req, res) => {
     });
 });
 
-//Error handlers middleware for staff that wen wrong with the 
-//request or the server.
+// Error handlers middleware for staff that wen wrong with the 
+// request or the server.
 app.use((req, res, next) => {
     const err = new Error("Wrong end point or request.");
     err.status = 404;
