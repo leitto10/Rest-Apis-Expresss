@@ -51,35 +51,10 @@ app.get('/api/v1/detail', (req, res) => {
     });
 });
 
-// Send a POST request to CREATE new Document.
-// https://rest-apis-expresss.herokuapp.com/api/v1/quotes
-// app.post('/api/v1/quotes', (req, res) => {
-//     console.log('Body', req.body);
-//     if(req.body.author && req.body.quote && req.body.date){
-//         const quote = new records({
-//             _id: new mongoose.Types.ObjectId(),
-//             quote: req.body.quote,
-//             author: req.body.author,
-//             date: req.body.date
-//         })
-//         quote.save()
-//         .then(result => {
-//             console.log(result);
-//             res.status(201).json({
-//                 message: "New Document Created...",
-//                 createdDoc: quote
-//             });
-//         })
-//         .catch(err => console.log(err));
-//     }else{
-//         res.status(404).json({message: "Quote and author required."});
-//     }
-// });
-
 // https://rest-apis-expresss.herokuapp.com/api/v1/quote/
 app.post('/api/v1/quotes/', (req,res, next) => {
     // find & update existing item, or add new
-    console.log(req.body)
+    console.log('Body', req.body);
     if (!req.body._id) { // insert new document
         const quote = new records({
             _id: new mongoose.Types.ObjectId(),
@@ -99,29 +74,6 @@ app.post('/api/v1/quotes/', (req,res, next) => {
         });
     }
 });
-
-// Update a sigle record
-// https://rest-apis-expresss.herokuapp.com/api/v1/quote/:id
-// app.post('/api/v1/quote/:id', (req, res) => {
-//     const itemId = req.params.id;
-//     if(!itemId){
-//         return req.status(400).send("Missing URL parameter: quote id.");
-//     }
-//     records.findByIdAndUpdate(
-//         {_id: itemId}, req.body, {new: true}
-//     )
-//     .exec()
-//     .then(result => {
-//         console.log(result);
-//         res.json(result);
-//     })
-//     .catch(err => {
-//         console.log(err);
-//         res.status(500).json({
-//             error: err
-//         });
-//     });
-// });
 
 // Delete a Quote from the database
 // https://rest-apis-expresss.herokuapp.com/api/v1/delete/:id
